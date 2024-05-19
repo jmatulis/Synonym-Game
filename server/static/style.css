@@ -1,0 +1,168 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    height: 80vh;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+#refresh-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#daily-word-container {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#synonyms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.layer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.synonym {
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#guess-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#guess-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+#guess-input.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+#error-message {
+    height: 24px; /* Fixed height */
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+#keyboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+}
+
+.quordle-key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    width: 40px; /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+    font-size: 24px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.quordle-key:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quordle-box-content {
+    pointer-events: none;
+}
+
+.quordle-key svg {
+    width: 24px;
+    height: 24px;
+}
+
+#popup-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: rgba(0, 128, 0);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
