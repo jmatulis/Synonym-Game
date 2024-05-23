@@ -223,6 +223,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return layers;
     }
+    
+    function muteSound(audio) {
+        volumeButton.addEventListener('click', () => {
+            if (audio.volume === 0) {
+                audio.volume = 1;
+                volumeButton.textContent = '🔊';
+            } else {
+                audio.volume = 0;
+                volumeButton.textContent = '🔇';
+            }
+        });
+    }
 
     function renderSynonyms(layers) {
         synonymsContainer.innerHTML = ''; // Clear any existing content
@@ -249,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('toggle-dark-mode').classList.add('dark-mode');
         document.getElementById('share-button').classList.add('dark-mode');
     }
+
 
     loadDailyWord();
     tutorial.classList.remove('hidden');
