@@ -51,14 +51,13 @@ def guess():
     data = request.json
     guess = data.get('guess').lower()
     word, synonyms = get_daily_word()
-    result = 'incorrect'
     if guess in [s.lower() for s in synonyms]:
         result = 'correct'
-        guessed.add(guess)
-        if all(syn.lower() in guessed for syn in synonyms):
+        if all(syn.lower() in [guess] for syn in synonyms):
             result = 'win'
+    else:
+        result = 'incorrect'
     return jsonify({'result': result, 'guess': guess})
 
 if __name__ == '__main__':
-    guessed = set()
     app.run(debug=True)

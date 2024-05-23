@@ -23,14 +23,21 @@ body {
     position: relative;
 }
 
-#refresh-button {
+#refresh-button, #toggle-dark-mode {
     position: absolute;
     top: 10px;
-    left: 10px;
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
+}
+
+#refresh-button {
+    left: 10px;
+}
+
+#toggle-dark-mode {
+    right: 10px;
 }
 
 #daily-word-container {
@@ -38,6 +45,7 @@ body {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
+    color: black;
 }
 
 #synonyms-container {
@@ -66,6 +74,12 @@ body {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
+    color: black;
+}
+
+body.dark-mode .synonym {
+    background-color: #2c2c2c;
+    color: #ffffff;
 }
 
 #guess-container {
@@ -154,7 +168,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    background-color: rgba(0, 128, 0);
+    background-color: rgba(0, 128, 0, 0.8);
     color: white;
     font-size: 24px;
     font-weight: bold;
@@ -165,4 +179,88 @@ body {
 
 .hidden {
     display: none;
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+#game-container.dark-mode {
+    background-color: #1e1e1e;
+}
+
+.quordle-key.dark-mode {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border-color: #444444;
+}
+
+#refresh-button.dark-mode, #toggle-dark-mode.dark-mode {
+    color: #ffffff;
+}
+
+#tutorial {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+#tutorial h2 {
+    margin-top: 0;
+}
+
+#tutorial button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+body.dark-mode #tutorial {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode #daily-word-container, body.dark-mode .synonym, body.dark-mode #guess-input {
+    color: #ffffff;
+}
+
+
+#loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+#share-button {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+body.dark-mode #share-button {
+    color: #ffffff;
 }

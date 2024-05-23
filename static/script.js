@@ -5,14 +5,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessage = document.getElementById('error-message');
     const popupMessage = document.getElementById('popup-message');
     const refreshButton = document.getElementById('refresh-button');
+    const toggleDarkMode = document.getElementById('toggle-dark-mode');
+    const shareButton = document.getElementById('share-button');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const tutorial = document.getElementById('tutorial');
+    const closeTutorialButton = document.getElementById('close-tutorial');
     let guessed = new Set();
     let synonyms = [];
-    const layerCharacterLimit = 15; // Define the character limit for each layer
+    const layerCharacterLimit = 20; // Define the character limit for each layer
     const dailyWordKey = 'dailyWord';
     const guessedKey = 'guessedWords';
     const gameWonKey = 'gameWon';
 
+    const correctSound = new Audio('/static/correct.mp3');
+    const incorrectSound = new Audio('/static/incorrect.mp3');
+    const winSound = new Audio('/static/win.mp3');
+
+    function playSound(sound) {
+        sound.play();
+    }
+
+    function showLoading() {
+        loadingSpinner.classList.remove('hidden');
+    }
+
+    function hideLoading() {
+        loadingSpinner.classList.add('hidden');
+    }
+
     function loadDailyWord() {
+        showLoading();
         fetch('/daily_word')
             .then(response => response.json())
             .then(data => {
@@ -39,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 localStorage.setItem(dailyWordKey, dailyWord);
+                hideLoading();
             });
     }
 
@@ -67,6 +90,29 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshButton.addEventListener('click', () => {
         resetGame();
         loadDailyWord();
+    });
+
+    toggleDarkMode.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        document.getElementById('game-container').classList.toggle('dark-mode');
+        document.querySelectorAll('.quordle-key').forEach(key => key.classList.toggle('dark-mode'));
+        document.getElementById('refresh-button').classList.toggle('dark-mode');
+        document.getElementById('toggle-dark-mode').classList.toggle('dark-mode');
+        document.getElementById('share-button').classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    shareButton.addEventListener('click', () => {
+        const shareText = `I just played Synonym Hunt! Today's word is ${dailyWordContainer.textContent.split(': ')[1]}. Try it out!`;
+        navigator.share({
+            title: 'Synonym Hunt',
+            text: shareText,
+            url: window.location.href
+        }).catch((error) => console.log('Error sharing:', error));
+    });
+
+    closeTutorialButton.addEventListener('click', () => {
+        tutorial.classList.add('hidden');
     });
 
     document.addEventListener('keydown', (event) => {
@@ -116,15 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSynonyms();
 
                 errorMessage.textContent = '';
+                playSound(correctSound);
+                guessInput.value = '';
                 if (guessed.size === synonyms.length && [...guessed].every(g => synonyms.includes(g))) {
                     localStorage.setItem(gameWonKey, 'true');
                     showWinMessage();
+                    playSound(winSound);
                 }
-                guessInput.value = '';
             } else {
                 errorMessage.textContent = 'Incorrect guess. Try again!';
                 errorMessage.style.color = 'red';
                 guessInput.classList.add('shake');
+                playSound(incorrectSound);
                 setTimeout(() => {
                     guessInput.classList.remove('shake');
                     guessInput.value = '';
@@ -135,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMessage.textContent = 'Incorrect guess. Try again!';
             errorMessage.style.color = 'red';
             guessInput.classList.add('shake');
+            playSound(incorrectSound);
             setTimeout(() => {
                 guessInput.classList.remove('shake');
                 guessInput.value = '';
@@ -183,12 +233,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const synonymElement = document.createElement('div');
                 synonymElement.classList.add('synonym');
                 synonymElement.dataset.synonym = synonym;
-                synonymElement.textContent = '_ '.repeat(synonym.length);
+                synonymElement.textContent = synonym[0] + '_ '.repeat(synonym.length - 1);
                 layerContainer.appendChild(synonymElement);
             });
             synonymsContainer.appendChild(layerContainer);
         });
     }
 
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('game-container').classList.add('dark-mode');
+        document.querySelectorAll('.quordle-key').forEach(key => key.classList.add('dark-mode'));
+        document.getElementById('refresh-button').classList.add('dark-mode');
+        document.getElementById('toggle-dark-mode').classList.add('dark-mode');
+        document.getElementById('share-button').classList.add('dark-mode');
+    }
+
     loadDailyWord();
+    tutorial.classList.remove('hidden');
 });
